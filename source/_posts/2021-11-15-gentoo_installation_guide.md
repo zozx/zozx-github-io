@@ -62,7 +62,7 @@ lsblk
 cfdisk -z /dev/nvme0n1 #nvme0n1根据情况更换
 ```
 
-![我的分区](https://raw.githubusercontent.com/zozx/zozx.github.io/master/images/2021-11-15-gentoo_installation_guide/2021-11-17_19-00.png)
+![我的分区](/images/2021-11-17_19-00.png)
 
 分区结束后，轮到了格式化环节，这里，我的方案是:
 

@@ -1,2 +1,1 @@
-# my-blog-based-on-hexo
-My blog based on Hexo
+# Raymond's Blog

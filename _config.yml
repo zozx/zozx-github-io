@@ -101,10 +101,10 @@ theme: hexo-theme-matery
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-# deploy:
-#   type: git
-#   repository: git@github.com:zozx/zozx.github.io.git
-#   branch: master
+deploy:
+  type: git
+  repository: git@github.com:zozx/zozx.github.io.git
+  branch: master
 
 prism_plugin:
   mode: 'preprocess'

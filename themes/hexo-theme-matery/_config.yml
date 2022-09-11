@@ -336,7 +336,7 @@ postCalendar: true
 gitalk:
   enable: true
   owner: zozx
-  repo: my-blog-based-on-hexo
+  repo: zozx.github.io
   oauth:
     clientId: a8e1b0c6cba0721bd7a2
     clientSecret: 17f331a15c5bc241853ee4e8213a70ecd2cb3ac2

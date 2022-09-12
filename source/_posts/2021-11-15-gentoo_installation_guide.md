@@ -10,8 +10,9 @@ categories: ["Installation Guide"]
 相信看到这篇文章的各位都已经对Gentoo这个Linux发行版有一定了解了，那么我们就直接开门见山，开始这篇教程，先说一下，本教程偏新手向，且比较简单，不能满足读者需求的话，可以看看这几篇：
 #### 1. [Gentoo Linux 安装及使用指南](https://bitbili.net/gentoo-linux-installation-and-usage-tutorial.html)
 #### 2. [在Mac上安装Gentoo Linux](https://www.yafa.moe/post/install-gentoo-on-mac/)
-#### 3. [Gentoo 安装](https://litterhougelangley.life/blog/2021/05/21/gentoo/)
+#### 3. [Gentoo 安装](https://litterhougelangley.club/blog/2021/05/21/gentoo/)
 #### 4. [The Unorthodox Gentoo Handbook I](https://blog.bugsur.xyz/gentoo-handbook-installation/)
+#### 5. [Gentoo AMD64 Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64)
 
 ### 打算
 

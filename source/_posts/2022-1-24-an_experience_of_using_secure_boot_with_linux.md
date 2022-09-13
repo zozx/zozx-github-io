@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "开启Secure Boot的情况下使用Linux的经历"
 date:   2022-1-24
 tags: ["SecureBoot","EFI","Linux"]

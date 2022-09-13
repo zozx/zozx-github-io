@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "我对rEFInd这个bootloader的感受"
 date:   2022-1-3
 tags: ["Bootloader","rEFInd","EFI"]

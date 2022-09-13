@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Gentoo 安装教程"
 date: 2021-11-15
 tags: ["Gentoo","Linux"]

@@ -30,7 +30,7 @@ emerge --sync && emerge -v preloader-signed
 接着就是配置PreLoader了
 
 ```bash
-cp /usr/share/preloader-signed/\{PreLoader,HashTool\}.efi path-to-bootloader # path-to-bootloader请以自己机子的bootloader位置为主
+cp /usr/share/preloader-signed/{PreLoader,HashTool}.efi path-to-bootloader # path-to-bootloader请以自己机子的bootloader位置为主
 efibootmgr -v -c -L "PreLoader" -l path-to-PreLoader.efi # 没有efibootmgr的自己装一下，path-to-Preloader.efi请以自己机子复制到esp后的位置为主
 reboot # 请进入BIOS并自己开启Secure Boot
 ```

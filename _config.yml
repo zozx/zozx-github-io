@@ -5,11 +5,11 @@
 # Site
 title: "Raymond's Blog"
 subtitle: "Raymond's Blog"
-description: "Raymond's Blog based on Github Pages and Hexo"
-keywords:
+description: "Raymond's Blog based on Hexo"
+keywords: "Raymond's Blog"
 author: "Raymond Kwok"
 language: zh-CN
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -103,7 +103,7 @@ theme: hexo-theme-matery
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repository: git@github.com:zozx/zozx.github.io.git
+  repository: git@github.com:zozx/zozx-github-io.git
   branch: master
 
 prism_plugin:

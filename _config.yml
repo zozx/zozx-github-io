@@ -6,7 +6,7 @@
 title: "Raymond's Blog"
 subtitle: "Raymond's Blog"
 description: "Raymond's Blog based on Hexo"
-keywords: "Raymond's Blog"
+keywords:
 author: "Raymond Kwok"
 language: zh-CN
 timezone: 'Asia/Shanghai'

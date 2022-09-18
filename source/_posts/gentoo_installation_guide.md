@@ -126,28 +126,27 @@ tar xpvf stage3-amd64-*.tar.xz --xattrs-include='*.*' --numeric-owner
 genfstab -U /mnt/gentoo > /mnt/gentoo/etc/fstab
 ```
 
-接着修改一下`make.conf`，我在这里就简单的展示一下我的(经过提醒，增加了些许注释)，具体可以自己微调，不建议直接抄功课，例如这里的`skylake`就是针对我的Coffee Lake架构的CPU写的，不同架构不一样
-
+接着修改一下`make.conf`，这里贴出我自己的(经过提醒，增加了些许注释)，不建议直接抄.
 ```bash
 # These settings were set by the catalyst build script that automatically
 # built this stage.
 # Please consult /usr/share/portage/config/make.conf.example for a more
 # detailed example.
-NTHREADS=12 #这里是线程数
+NTHREADS=12 # 线程数
 
-COMMON_FLAGS="-march=skylake -O3 -pipe -fgraphite-identity -floop-nest-optimize -fno-stack-protector -fno-align-functions -fno-align-jumps -fno-align-loops -fno-align-labels" #这个COMMON_FLAGS需要给gcc添加graphite的use才可以用，不知道CPU架构的可以上wiki看看或者直接使用-march=native
+COMMON_FLAGS="-march=skylake -O3 -pipe -fgraphite-identity -floop-nest-optimize -fno-stack-protector -fno-align-functions -fno-align-jumps -fno-align-loops -fno-align-labels"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
-LDFLAGS="-Wl,-O3 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,--sort-common -Wl,--strip-all" #这个LDFLAGS会使networkmanager这个包过不了，需要手动设置env，不建议新手使用
-RUSTFLAGS="-C opt-level=3 -C target-cpu=skylake" #不知道CPU架构的可以上wiki看看或者直接使用-march=native
+LDFLAGS="-Wl,-O3 -Wl,--as-needed -Wl,--hash-style=gnu -Wl,--sort-common -Wl,--strip-all" # 该LDFLAGS会导致networkmanager装不了
+RUSTFLAGS="-C opt-level=3 -C target-cpu=skylake"
 
 # NOTE: This stage was built with the bindist Use flag enabled
 PORTDIR="/var/db/repos/gentoo"
 DISTDIR="/var/cache/distfiles"
 PKGDIR="/var/cache/binpkgs"
-PORTAGE_TMPDIR="/tmp" #在systemd下，/tmp目录默认为tmpfs，即内存，不建议内存小的朋友使用
+PORTAGE_TMPDIR="/tmp"
 
 # This sets the language of build output to English.
 # Please keep this setting intact when reporting bugs.
@@ -155,26 +154,28 @@ LC_MESSAGES=C
 
 MAKEOPTS="-j${NTHREADS} -l${NTHREADS}"
 PORTAGE_NICENESS=15
-GENTOO_MIRRORS="https://mirrors6.tuna.edu.cn/gentoo" #请自行选择一个比较快的站点
-USE="systemd lto pgo graphite ccache staging bluetooth alsa pulseaudio ffmpeg openssl network wifi networkmanager connection-sharing iptables zstd lz4 7zip rar btrfs policykit dbus qemu vdpau vaapi vulkan vkd3d d3d9 nvidia nvenc steamfonts trayicon systray -pipewire -joystick -games -education -wayland -xinerama -firewall -ppp -iwd -dhclient -elogind -kaccounts -webengine -kwallet -bittorrent -phonon -vlc -gnome -gnome-keyring -gnome-shell -gnome-online-accounts -passwdqc -bindist -clang -ssp -dhcpcd -netifrc -consolekit -doc -gtk-doc -handbook -spell -grub -oss -gpm" #USE这个东西因个人需求与电脑配置而异，不建议直接复制
-ACCEPT_KEYWORDS="~amd64" #不建议新手直接全局开启带有~的keywords，随时可能出现未知问题
-ACCEPT_LICENSE="*" #建议不计较license的朋友直接开*，这样可以省不少事
-GRUB_PLATFORMS="efi-64" #使用GRUB+EFI的话请添加此行
+PORTAGE_IONICE_COMMAND="ionice -c 3 -p \${PID}"
+GENTOO_MIRRORS="https://mirrors.tuna.tsinghua.edu.cn/gentoo"
+FETCHCOMMAND="/usr/bin/aria2c -d \${DISTDIR} -o \${FILE} --allow-overwrite=true --max-tries=8 --max-file-not-found=2 --max-concurrent-downloads=128 --connect-timeout=15 --timeout=15 --split=128 --min-split-size=2M --lowest-speed-limit=20K --max-connection-per-server=16 --uri-selector=feedback \${URI}" # 此处是用aria2代替wget
+RESUMECOMMAND="${FETCHCOMMAND}"
+USE="lto pgo graphite jemalloc ccache clang staging zsh-completion bluetooth pulseaudio pipewire screencast ffmpeg openssl network wifi iptables zstd lz4 7zip rar btrfs tpm gnome-keyring qemu wayland gles2 vdpau vaapi vulkan vkd3d d3d9 nvidia nvenc steamfonts trayicon systray -joystick -games -education -xinerama -firewall -networkmanager -ppp -kaccounts -webengine -kwallet -bittorrent -phonon -vlc -gtk2 -gnome -gnome-shell -gnome-online-accounts -bindist -ssp -doc -gtk-doc -handbook -spell -grub -oss -gpm"
+ACCEPT_KEYWORDS="~amd64" # ~表示unstable，amd64表示架构是x86_64
+ACCEPT_LICENSE="*" # 接受所有协议
 EMERGE_DEFAULT_OPTS="--keep-going --with-bdeps=y --jobs=${NTHREADS} --load-average=${NTHREADS}"
 L10N="en-US zh-CN en zh"
 LINGUAS="en_US zh_CN en zh"
-VIDEO_CARDS="nvidia intel i965 iris" #我这里是Intel核显加上NVIDIA的独显
+VIDEO_CARDS="nvidia intel"
 ALSA_CARDS="hda-intel"
-INPUT_DEVICES="libinput" #这个基本上可以算是承包大部分输入设备了
-LLVM_TARGETS="X86 NVPTX" #一般只开X86即可，N卡可以开多个NVPTX，A卡可以开多个AMDGPU
-RUBY_TARGETS="ruby30"
-ABI_X86="64 32" #这个不建议开，我是因为要用wine-staging,lutris等包才贪方便装的
-MICROCODE_SIGNATURES="-S" #如果要将intel的microcode编入内核就请留下这行
-FEATURES="ccache" #安装ccache前不要打开
-CCACHE_DIR="/var/cache/ccache" #安装ccache前不要打开
-CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sse sse2 sse3 sse4_1 sse4_2 ssse3" #这个因CPU而异，可以通过cpuid2cpuflags查看
+LLVM_TARGETS="X86 NVPTX"
+PYTHON_TARGETS="python3_10"
+PYTHON_SINGLE_TARGET="python3_10"
+RUBY_TARGETS="ruby30 ruby31"
+ABI_X86="64 32"
+FEATURES="ccache"
+CCACHE_DIR="/var/cache/ccache"
+CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sse sse2 sse3 sse4_1 sse4_2 ssse3" # 本行由app-portage/cpuid2cpuflags生成
 CONFIG_PROTECT="/usr/share/sddm/scripts/Xsetup"
-UNINSTALL_IGNORE="/bin /lib /lib64 /sbin /usr/sbin" #不进行usr-merge的朋友请忽略这一行
+UNINSTALL_IGNORE="/bin /lib /lib64 /sbin /usr/sbin"
 ```
 
 然后再通过如下命令设置main repo的repos.conf
@@ -184,7 +185,7 @@ mkdir -p /mnt/gentoo/etc/portage/repos.conf
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 ```
 
-然后把`sync-uri`处修改一下，建议rsync的话使用北外的，如下
+然后把`sync-uri`处修改一下，建议rsync的话使用广度优先搜索大学的，如下
 
 ```bash
 sync-uri = rsync://mirrors.bfsu.edu.cn/gentoo-portage
@@ -203,10 +204,10 @@ chroot /mnt/gentoo /bin/bash
 env-update && . /etc/profile
 ```
 
-之后是通过命令`emerge-webrsync`同步repo，同步完之后让我们再修改一些package的use，命令如下
+之后是通过命令`emerge-webrsync`同步快照，同步完之后让我们再修改一些package的use，命令如下
 
 ```bash
-echo 'app-text/ghostscript-gpl -l10n_zh-CN' > /etc/portage/package.use/ghostscript-gpl #为了避免安装宋体，去掉该包的zh-CN支持
+echo 'app-text/ghostscript-gpl -l10n_zh-CN' > /etc/portage/package.use/ghostscript-gpl #为了不安装宋体，去掉该包的zh-CN支持
 ```
 
 如果需要更强的性能，并且时间充裕，可以开启`pgo`以及`lto`还有`graphite`优化，操作如下
@@ -249,7 +250,7 @@ echo 'ALIENWARE' > /etc/hostname #设置主机名，如果不设置，则可能�
 安装一些小工具
 
 ```bash
-emerge -av networkmanager dev-vcs/git btrfs-progs neovim eselect-repository systemd-cron doas mlocate intel-microcode grub:2 #针对个人更改,例如大家如果更喜欢sudo,就可以把doas换成sudo(也可以都不用就是了)
+emerge -av networkmanager dev-vcs/git btrfs-progs neovim eselect-repository systemd-cron doas mlocate intel-microcode grub:2 # 按需安装
 ```
 
 然后可以针对个人进行一些配置：
@@ -263,7 +264,7 @@ nvim /etc/doas.conf:
         permit keepenv :wheel
         permit nopass keepenv root
 ------------------------------------------------
-#如果像我一样去掉了passwdqc的use的话，不用如下配置也可以使用一般的密码
+#如果去掉了passwdqc的use，不用如下配置也可以使用简单密码
 nvim /etc/security/passwdqc:
 ------------------------------------------------
         min=3,3,3,3,3
@@ -282,32 +283,32 @@ systemd-machine-id-setup
 
 ### 配置内核与bootloader
 
-这里的话我推荐使用Houge Langley维护的`xanmod-hybrid`或者`liquorix-sources`，具体步骤如下
+这里的话我推荐`sys-kernel/liquorix-sources`，具体步骤如下:
 
 ```bash
 eselect repository enable gentoo-zh
-mkdir -p /etc/portage/package.accept_keywords; echo 'sys-kernel/liquorix-sources ~amd64' >> /etc/portage/package.accept_keywords/liquorix-sources #这里说明一下，如果make.conf中ACCEPT_KEYWORDS="~amd64"，就不需要该步骤
-emerge -av liquorix-sources
+mkdir -p /etc/portage/package.accept_keywords; echo 'sys-kernel/liquorix-sources ~amd64' >> /etc/portage/package.accept_keywords/liquorix-sources #如果make.conf中ACCEPT_KEYWORDS="~amd64"，就不需要该步骤
+emerge -av sys-kernel/liquorix-sources
 eselect kernel set 1
 cd /usr/src/linux
 make mrproper
 cp /var/db/repos/gentoo-zh/sys-kernel/liquorix-sources/config/default-config /usr/src/linux/.config #复制一份默认的配置
 make modules_prepare
 make menuconfig
-make -jX -lX #此处X为线程数，可通过lscpu查看
+make -jX -lX #此处X为线程数
 make modules_install
 make install
 ```
 
-具体配置的话我就不细讲了，然后如果想节约时间的话，可以使用`gentoo-kernel-bin`，具体步骤很简单，就是`emerge -av gentoo-kernel-bin`
+具体配置的话我就不细讲了，如果想节约时间，建议装`sys-kernel/gentoo-kernel-bin`
 
-接着配置一下GRUB
+接着装一下GRUB
 
 ```bash
-# 使用EFI的话，请用如下命令
+# 若使用EFI，请用如下命令
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB # --efi-directory后面接的是esp分区
-# BIOS的话，则使用如下命令
-grub-install --target=i386-pc /dev/sdX # /dev/sdX指的是系统所在硬盘，根据情况自己查看。
+# 若为BIOS，则用如下命令
+grub-install --target=i386-pc /dev/sdX # /dev/sdX指的是系统盘(不是分区)
 
 #配置grub.cfg
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -330,3 +331,5 @@ exit
 umount -lR /mnt/gentoo
 reboot
 ```
+
+##### 希望大家重启之后都能如愿进入系统

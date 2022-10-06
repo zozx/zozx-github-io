@@ -119,3 +119,7 @@ search:
 permalink_pinyin:
   enable: true
   separator: '-'
+
+sitemap:
+  tags: true
+  categories: true

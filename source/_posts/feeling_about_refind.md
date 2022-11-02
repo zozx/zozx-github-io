@@ -1,5 +1,5 @@
 ---
-title: "我对rEFInd这个NootLoader的感受"
+title: "我对rEFInd这个BootLoader的感受"
 date:   2022-1-3
 tags: ["Bootloader","rEFInd","EFI"]
 categories: ["EFI"]

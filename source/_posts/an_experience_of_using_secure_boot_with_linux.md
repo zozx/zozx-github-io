@@ -34,7 +34,7 @@ efibootmgr -v -c -L "PreLoader" -l path-to-PreLoader.efi # 没有efibootmgr的�
 reboot # 请进入BIOS并自己开启Secure Boot
 ```
 
-重启之后PreLoader会报Hash有问题，并且进入HashTool，添加一下Bootloader的efi文件和vmlinuz/BzImage.efi即可
+重启之后PreLoader会报Hash有问题，并且进入HashTool，添加一下Bootloader的efi文件和内核文件即可
 
 ### 尾声
 

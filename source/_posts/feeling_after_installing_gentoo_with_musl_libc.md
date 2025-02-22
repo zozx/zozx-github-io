@@ -1,6 +1,7 @@
 ---
 title: "尝试以musl作为libc安装Gentoo之后的想法和建议"
-date:   2021-11-28
+#date:   2021-11-28
+date:	28-11-2021
 tags: ["musl","Gentoo","libc","建议"]
 categories: [Gentoo]
 ---

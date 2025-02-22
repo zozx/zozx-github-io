@@ -1,6 +1,7 @@
 ---
 title: "Hexo 花括号问题解决方案"
-date: 2022-9-13
+#date: 2022-9-13
+date:	13-9-2022
 tags: ["Hexo","Blog"]
 categories: ["教程"]
 ---

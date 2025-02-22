@@ -1,6 +1,7 @@
 ---
 title: "Gentoo 安装教程"
-date: 2021-11-15
+#date: 2021-11-15
+date:	15-11-2021
 tags: ["Gentoo","Linux"]
 categories: ["Installation Guide"]
 ---

@@ -1,6 +1,7 @@
 ---
 title: "我对rEFInd这个BootLoader的感受"
-date:   2022-1-3
+#date:   2022-1-3
+date:	3-1-2022
 tags: ["Bootloader","rEFInd","EFI"]
 categories: ["EFI"]
 ---

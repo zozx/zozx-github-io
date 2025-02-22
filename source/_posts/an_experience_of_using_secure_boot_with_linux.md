@@ -1,6 +1,7 @@
 ---
 title: "开启Secure Boot的情况下使用Linux的经历"
-date:   2022-1-24
+#date:   2022-1-24
+date:	24-1-2022
 tags: ["SecureBoot","EFI","Linux"]
 categories: ["EFI"]
 ---

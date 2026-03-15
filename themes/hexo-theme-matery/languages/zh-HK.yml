@@ -20,8 +20,8 @@ toc: 目錄
 curr: 本篇
 prev: 上一篇
 next: 下一篇
-search: 搜索
-searchTip: 請輸入搜索的關鍵字
+search: 搜尋
+searchTip: 請輸入搜尋的關鍵字
 postTagTitle: 文章標籤
 postCategoryTitle: 文章分類
 categoryRadarTitle: 文章分類雷達圖
@@ -72,10 +72,10 @@ checkPolicy: 查看
 siteTotalWords: 站點總字數
 siteTotalVisits: 總訪問量
 siteTotalVisitors: 總訪問人數
-Index: 首页
-Tags: 标签
-Categories: 分类
-Archives: 归档
-About: 关于
+Index: 首頁
+Tags: 標籤
+Categories: 分類
+Archives: 歸檔
+About: 關於
 Contact: 留言板
-Friends: 友情链接
+Friends: 友情連結
